@@ -8,7 +8,7 @@ use std::io::{self, BufRead};
 
 fn main() {
     let stdin = io::stdin();
-    for line in stdin.lock().lines() {
+    'first: for line in stdin.lock().lines() {
         let l = line.unwrap();
         if l.is_empty() {
             continue;
@@ -16,6 +16,7 @@ fn main() {
         let character = l.chars();
         if l == "DELIMITER ;" {
             print!("Ok");
+            continue 'first;
         } else if l == "PARSE" {
             continue;
         }
