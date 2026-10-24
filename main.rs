@@ -11,9 +11,9 @@ fn main() {
         }
         for c in l.chars() {
             if c == ',' {
-                println!(" | ");
+                print!(" | ");
             } else {
-                println!("{c}");
+                print!("{c}");
             }
         }
     }
