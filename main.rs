@@ -15,7 +15,8 @@ fn main() {
         }
         let character = l.chars();
         if l == "DELIMITER ;" {
-            print!("Ok");
+            print!("OK");
+            println!();
             continue 'first;
         } else if l == "PARSE" {
             continue;
