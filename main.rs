@@ -10,12 +10,13 @@ fn main() {
             continue;
         }
         for c in l.chars() {
-            if c.is_whitespace() {
+            for l in line {
+                if c == ',' {
+                    print!(" | ");
+                } else {
+                    print!("{c}");
+                }
                 println!("\n");
-            } else if c == ',' {
-                print!(" | ");
-            } else {
-                print!("{c}");
             }
         }
     }
