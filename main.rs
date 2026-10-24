@@ -14,13 +14,18 @@ fn main() {
             continue;
         }
         let character = l.chars();
+        if l == "DELIMITER ;" {
+            print!("Ok");
+        } else if l == "PARSE" {
+            continue;
+        }
         for c in character {
-            if c == ',' {
+            if c == ',' || c == ';' || c.is_whitespace() {
                 print!(" | ");
             } else {
                 print!("{c}");
             }
         }
-        print!("\n");
+        println!();
     }
 }
