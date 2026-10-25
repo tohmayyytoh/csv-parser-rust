@@ -1,33 +1,29 @@
 use std::io::{self, BufRead};
 
-// csv files are of the type ->
-// name,age,city
-// Alice,30,NYC
-// Bob,25,LA
-// ,empty,first
+// TODO (csv-basics): implement per the lesson description.
 
 fn main() {
     let stdin = io::stdin();
-    'first: for line in stdin.lock().lines() {
+    for line in stdin.lock().lines() {
         let l = line.unwrap();
         if l.is_empty() {
             continue;
         }
-        let character = l.chars();
-        if l == "DELIMITER ;" {
-            print!("OK");
-            println!();
-            continue 'first;
-        } else if l == "PARSE" {
-            continue;
-        }
-        for c in character {
-            if c == ',' || c == ';' || c.is_whitespace() {
-                print!(" | ");
+        let mut row: Vec<String> = Vec::new();
+        let mut field: String = String::new();
+        let char = l.chars();
+        let delimiter = ',';
+        for c in char {
+            if c != delimiter {
+                field.push(c);
             } else {
-                print!("{c}");
+                row.push(field.clone());
+                field.clear();
             }
         }
-        println!();
+
+        row.push(field.clone());
+        field.clear();
+        println!("{:?}", row.join(" | "));
     }
 }
