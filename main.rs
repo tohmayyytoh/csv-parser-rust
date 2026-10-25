@@ -24,6 +24,6 @@ fn main() {
 
         row.push(field.clone());
         field.clear();
-        println!("{:?}", row.join(" | "));
+        println!("{}", row.join(" | "));
     }
 }
