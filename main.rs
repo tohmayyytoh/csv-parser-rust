@@ -45,19 +45,19 @@ fn main() {
         if l.is_empty() {
             continue;
         }
-        let char = l.chars();
 
         if l.starts_with("DELIMITER ") {
             let (instruction, d) = l.split_at("DELIMITER ".len());
             let d = d.chars().next().unwrap();
             delimiter.process(Variables::SetDelim(d));
+            println!("OK");
         }
 
         if l.starts_with("PARSE ") {
             let (instruction, p) = l.split_at("PARSE ".len());
             let p = p.to_string();
             let return_value = delimiter.process(Variables::ParseRaw(p));
-            println!("OK\n{}", return_value.unwrap().join(" | "));
+            println!("{}", return_value.unwrap().join(" | "));
         }
     }
 }
