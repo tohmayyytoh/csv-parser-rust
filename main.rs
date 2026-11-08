@@ -15,18 +15,33 @@ impl CsvParser {
     fn process(&mut self, command: Variables) -> Option<Vec<String>> {
         let mut row = Vec::new();
         let mut field = String::new();
+        let mut in_quotes = false;
         match command {
             Variables::SetDelim(new_delim) => {
                 self.delim = new_delim;
                 None
             }
             Variables::ParseRaw(string) => {
-                for c in string.chars() {
-                    if c != self.delim {
+                let mut chars = string.chars().peekable();
+                while let Some(c) = chars.next() {
+                    if c == '"' && chars.peek() == Some(&'"') {
                         field.push(c);
+                        chars.next();
+                    } else if in_quotes {
+                        if c == '"' {
+                            in_quotes = !in_quotes;
+                        } else {
+                            field.push(c);
+                        }
                     } else {
-                        row.push(field.clone());
-                        field.clear()
+                        if c == '"' {
+                            in_quotes = !in_quotes;
+                        } else if c != self.delim {
+                            field.push(c);
+                        } else {
+                            row.push(field.clone());
+                            field.clear();
+                        }
                     }
                 }
                 row.push(field.clone());
@@ -50,14 +65,13 @@ fn main() {
             let (instruction, d) = l.split_at("DELIMITER ".len());
             let d = d.chars().next().unwrap();
             delimiter.process(Variables::SetDelim(d));
-            println!("OK");
         }
 
         if l.starts_with("PARSE ") {
             let (instruction, p) = l.split_at("PARSE ".len());
             let p = p.to_string();
             let return_value = delimiter.process(Variables::ParseRaw(p));
-            println!("{}", return_value.unwrap().join(" | "));
+            println!("OK\n{}", return_value.unwrap().join(" | "));
         }
     }
 }
