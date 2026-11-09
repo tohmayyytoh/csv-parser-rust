@@ -67,11 +67,9 @@ fn main() {
             delimiter.process(Variables::SetDelim(d));
         }
 
-        if l.starts_with("PARSE ") {
-            let (instruction, p) = l.split_at("PARSE ".len());
-            let p = p.to_string();
-            let return_value = delimiter.process(Variables::ParseRaw(p));
-            println!("OK\n{}", return_value.unwrap().join(" | "));
-        }
+        let (instruction, p) = l.split_at("PARSE ".len());
+        let p = p.to_string();
+        let return_value = delimiter.process(Variables::ParseRaw(l));
+        println!("OK\n{}", return_value.unwrap().join(" | "));
     }
 }
